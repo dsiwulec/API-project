@@ -3,11 +3,6 @@
 ## Database Schema Design
 
 ![](./db-schema/db-schema.jpg)
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 6af50376061d14594ae9c0c5710fa7f7ec23802e
 
 ## API Documentation
 
