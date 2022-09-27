@@ -40,16 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     endDate: {
       type: DataTypes.DATE,
       allowNull: false
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.literal('CURRENT_TIMESTAMP')
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
