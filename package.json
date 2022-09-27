@@ -1,5 +1,5 @@
 {
-  "name": "authenticate-me",
+  "name": "api-project",
   "version": "1.0.0",
   "description": "## Database Schema Design",
   "main": "index.js",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/dsiwulec/API-project/issues"
   },
-  "homepage": "https://github.com/dsiwulec/API-project#readme"
+  "homepage": "https://github.com/dsiwulec/API-project#readme",
+  "dependencies": {
+    "pg": "^8.8.0"
+  }
 }
