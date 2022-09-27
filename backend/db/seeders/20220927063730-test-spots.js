@@ -18,63 +18,63 @@ module.exports = {
       },
       {
         ownerId: 1,
-        address: '2109 Broadway',
+        address: '90 Bedford St',
         city: 'New York',
         state: 'New York',
         country: 'USA',
         lat: 40.7128,
         lng: 74.0060,
-        name: 'Apartment in New York',
+        name: 'Private room in New York',
         description: 'All the amenities and comforts of home, great for long or short stays!',
-        price: 125,
-        previewImage: 1
+        price: 100,
+        previewImage: 2
       },
       {
         ownerId: 1,
-        address: '2109 Broadway',
+        address: '66 Perry Street',
         city: 'New York',
         state: 'New York',
         country: 'USA',
         lat: 40.7128,
         lng: 74.0060,
-        name: 'Apartment in New York',
-        description: 'Spacious apartment perfect for your stay!',
-        price: 125,
-        previewImage: 1
-      },
-      {
-        ownerId: 2,
-        address: '2109 Broadway',
-        city: 'New York',
-        state: 'New York',
-        country: 'USA',
-        lat: 40.7128,
-        lng: 74.0060,
-        name: 'Apartment in New York',
-        description: 'Spacious apartment perfect for your stay!',
-        price: 125,
-        previewImage: 1
+        name: 'Serviced apartment in New York',
+        description: 'Listed by Tripadvisor as one of the top 25 hotels in the United States!',
+        price: 155,
+        previewImage: 3
       },
       {
         ownerId: 3,
-        address: '2109 Broadway',
+        address: '169 E 71st St',
         city: 'New York',
         state: 'New York',
         country: 'USA',
         lat: 40.7128,
         lng: 74.0060,
-        name: 'Apartment in New York',
-        description: 'Spacious apartment perfect for your stay!',
-        price: 125,
-        previewImage: 1
+        name: 'Boutique hotel in New York',
+        description: 'Welcome to citizenM Bowery, the tallest building on the oldest street in NYC!',
+        price: 175,
+        previewImage: 4
+      },
+      {
+        ownerId: 3,
+        address: '36 Fuller Place',
+        city: 'New York',
+        state: 'New York',
+        country: 'USA',
+        lat: 40.7128,
+        lng: 74.0060,
+        name: 'Hotel room in New York',
+        description: 'Oversized rooms with modern amenities.',
+        price: 150,
+        previewImage: 5
       },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] }
+    return queryInterface.bulkDelete('Spots', {
+      ownderId: { [Op.in]: [1, 3] }
     }, {});
   }
 };

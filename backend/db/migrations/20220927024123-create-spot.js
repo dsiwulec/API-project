@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ownderId: {
+      ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -52,7 +52,10 @@ module.exports = {
         allowNull: false
       },
       previewImage: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Images'
+        }
       },
       createdAt: {
         type: Sequelize.DATE,

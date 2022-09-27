@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Booking, {
         foreignKey: 'spotId'
       })
+      Spot.hasMany(models.Image, {
+        foreignKey: 'previewImage'
+      })
     }
   }
   Spot.init({
-    ownderId: {
+    ownerId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Users'
-      }
+      allowNull: false
     },
     address: {
       type: DataTypes.STRING,
