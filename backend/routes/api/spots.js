@@ -1,7 +1,7 @@
 const express = require('express')
 const sequelize = require('sequelize')
 const { requireAuth } = require('../../utils/auth')
-const { Spot, SpotImage, Review } = require('../../db/models')
+const { Spot, SpotImage, Review, User } = require('../../db/models')
 const router = express.Router()
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -101,6 +101,75 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         id: newImage.id,
         url: newImage.url,
         preview: newImage.preview
+    })
+})
+
+router.get('/current', requireAuth, async (req, res) => {
+    const spots = await Spot.findAll({
+        where: {
+            ownerId: req.user.id
+        },
+        raw: true,
+        group: 'Spot.id',
+        attributes: {
+            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
+        },
+        include: {
+            model: Review,
+            attributes: []
+        },
+    })
+
+    return res.json(spots)
+})
+
+router.get('/:spotId', async (req, res) => {
+    const { spotId } = req.params
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        },
+        raw: true,
+        group: 'Spot.id',
+        attributes: {
+            include: [
+                [sequelize.fn('COUNT', sequelize.col('stars')), 'numReviews'],
+                [sequelize.fn('ROUND', sequelize.fn('AVG', sequelize.col('stars')), 1), 'avgRating']
+            ]
+        },
+        include: {
+            model: Review,
+            attributes: []
+        }
+    })
+
+    if (!spot) {
+        res.status(404)
+        return res.json('No spot with that ID found')
+    }
+
+    const spotImages = await SpotImage.findAll({
+        where: {
+            spotId
+        },
+        attributes: {
+            exclude: ['spotId', 'createdAt', 'updatedAt']
+        }
+    })
+
+    const spotOwner = await User.findOne({
+        where: {
+            id: spot.ownerId
+        },
+        attributes: {
+            exclude: ['username']
+        }
+    })
+
+    res.json({
+        spot,
+        spotImages,
+        spotOwner
     })
 })
 
