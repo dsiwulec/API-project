@@ -13,7 +13,6 @@ router.get('/', async (req, res) => {
         },
         include: {
             model: Review,
-            group: 'Spot.id',
             attributes: []
         },
     })
