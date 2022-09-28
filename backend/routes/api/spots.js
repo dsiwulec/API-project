@@ -1,7 +1,7 @@
 const express = require('express')
 const sequelize = require('sequelize')
 const { requireAuth } = require('../../utils/auth')
-const { Spot, SpotImage, Review, User } = require('../../db/models')
+const { Spot, SpotImage, Review, User, ReviewImage } = require('../../db/models')
 const router = express.Router()
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -229,6 +229,34 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     })
 
     res.json(newReview)
+})
+
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json('No spot with that ID found')
+    }
+
+    const reviews = await Review.findAll({
+        where: {
+            spotId
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    })
+
+    res.json(reviews)
 })
 
 module.exports = router
