@@ -1,7 +1,7 @@
 const express = require('express')
 const sequelize = require('sequelize')
 const { requireAuth } = require('../../utils/auth')
-const { Spot, Review } = require('../../db/models')
+const { Spot, SpotImage, Review } = require('../../db/models')
 const router = express.Router()
 
 router.get('/', async (req, res) => {
@@ -47,6 +47,33 @@ router.post('/', requireAuth, async (req, res) => {
     })
 
     res.json(newSpot)
+})
+
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+    const { url, preview } = req.body
+    const { spotId } = req.params
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json('Spot not found')
+    }
+
+    const newImage = await SpotImage.create({
+        url,
+        preview,
+        spotId: spotId
+    })
+
+    if (spot.previewImage !== null) {
+        const oldId = spot.previewImage
+        const oldPreview = await SpotImage.findByPk(oldId)
+        await oldPreview.update({ preview: false })
+    }
+
+    await spot.update({ previewImage: newImage.id })
+
+    res.json(newImage)
 })
 
 module.exports = router
