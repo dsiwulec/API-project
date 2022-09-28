@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 
     for (const spot of spots) {
         const spotReviews = await Review.findAll({
+            group: ['id'],
             where: {
                 spotId: spot.id
             },
