@@ -6,28 +6,16 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
-        raw: true
+        raw: true,
+        group: 'spotId',
+        attributes: {
+            include: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]]
+        },
+        include: {
+            model: Review,
+            attributes: []
+        },
     })
-
-    for (const spot of spots) {
-        const spotReviews = await Review.findAll({
-            group: ['id'],
-            where: {
-                spotId: spot.id
-            },
-            raw: true,
-            attributes: {
-                include: [
-                    [
-                        sequelize.fn("AVG", sequelize.col("stars")),
-                        "avgRating"
-                    ]
-                ]
-            }
-        })
-
-        spot.avgRating = spotReviews[0].avgRating
-    }
 
     return res.json(spots)
 })
