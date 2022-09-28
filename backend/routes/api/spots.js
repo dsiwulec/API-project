@@ -95,7 +95,11 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
     await spot.update({ previewImage: newImage.id })
 
-    res.json(newImage)
+    res.json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    })
 })
 
 module.exports = router
