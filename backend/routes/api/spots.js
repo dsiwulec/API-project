@@ -81,6 +81,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         return res.json('Spot not found')
     }
 
+    if (req.user.id !== spot.ownerId) throw new Error('Only the owner of a spot can add images')
+
     const newImage = await SpotImage.create({
         url,
         preview,
