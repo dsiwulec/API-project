@@ -54,7 +54,7 @@ module.exports = {
       previewImage: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Images'
+          model: 'SpotImages'
         }
       },
       createdAt: {

@@ -14,7 +14,6 @@ module.exports = {
         name: 'Apartment in New York',
         description: 'Spacious apartment perfect for your stay!',
         price: 125,
-        previewImage: 1
       },
       {
         ownerId: 1,
@@ -27,7 +26,6 @@ module.exports = {
         name: 'Private room in New York',
         description: 'All the amenities and comforts of home, great for long or short stays!',
         price: 100,
-        previewImage: 2
       },
       {
         ownerId: 1,
@@ -40,7 +38,6 @@ module.exports = {
         name: 'Serviced apartment in New York',
         description: 'Listed by Tripadvisor as one of the top 25 hotels in the United States!',
         price: 155,
-        previewImage: 3
       },
       {
         ownerId: 3,
@@ -53,7 +50,6 @@ module.exports = {
         name: 'Boutique hotel in New York',
         description: 'Welcome to citizenM Bowery, the tallest building on the oldest street in NYC!',
         price: 175,
-        previewImage: 4
       },
       {
         ownerId: 3,
@@ -66,7 +62,6 @@ module.exports = {
         name: 'Hotel room in New York',
         description: 'Oversized rooms with modern amenities.',
         price: 150,
-        previewImage: 5
       },
     ], {});
   },
