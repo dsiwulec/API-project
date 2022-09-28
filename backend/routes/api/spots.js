@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         raw: true,
         group: 'Spot.id',
         attributes: {
-            include: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]]
+            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
         },
         include: {
             model: Review,
