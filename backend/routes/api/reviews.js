@@ -3,6 +3,18 @@ const router = express.Router()
 const { requireAuth } = require('../../utils/auth')
 const { Review, ReviewImage, Spot, User } = require('../../db/models')
 const { restoreUser } = require('../../utils/auth')
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('The review text cannot be empty.'),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid rating from 1-5.'),
+    handleValidationErrors
+];
 
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const { url } = req.body
@@ -60,6 +72,27 @@ router.get('/current', requireAuth, async (req, res) => {
     })
 
     res.json(reviews)
+})
+
+router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
+    const { reviewId } = req.params
+    const { review, stars } = req.body
+    const user = req.user.id
+    const selectedReview = await Review.findByPk(reviewId)
+
+    if (!selectedReview) {
+        res.status(404)
+        return res.json('Review not found')
+    }
+
+    if (selectedReview.userId !== user) throw new Error('Only the author of the review can edit')
+
+    await selectedReview.update({
+        review,
+        stars
+    })
+
+    res.json(selectedReview)
 })
 
 module.exports = router
