@@ -3,6 +3,39 @@ const sequelize = require('sequelize')
 const { requireAuth } = require('../../utils/auth')
 const { Spot, SpotImage, Review } = require('../../db/models')
 const router = express.Router()
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+
+const validateSpot = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid address.'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid city.'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid state.'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid country.'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid latitude.'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid longitude.'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid name.'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid description.'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid price.'),
+    handleValidationErrors
+];
 
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
@@ -20,7 +53,7 @@ router.get('/', async (req, res) => {
     return res.json(spots)
 })
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', validateSpot, requireAuth, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const newSpot = await Spot.create({
         ownerId: req.user.id,
