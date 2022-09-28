@@ -37,6 +37,16 @@ const validateSpot = [
     handleValidationErrors
 ];
 
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('The review text cannot be empty.'),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a valid rating from 1-5.'),
+    handleValidationErrors
+];
+
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
         raw: true,
@@ -171,6 +181,54 @@ router.get('/:spotId', async (req, res) => {
         spotImages,
         spotOwner
     })
+})
+
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+    const { spotId } = req.params
+    const { address, city, state, country, lat, lng, name, descirption, price } = req.body
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json('No spot with that ID found')
+    }
+
+    if (spot.ownerId !== req.user.id) throw new Error('Only the spot owner can edit spot details')
+
+
+    await spot.update({ address, city, state, country, lat, lng, name, descirption, price })
+
+    res.json(spot)
+})
+
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
+    const { spotId } = req.params
+    const { review, stars } = req.body
+    const spot = await Spot.findByPk(spotId)
+    const existingReview = await Review.findOne({
+        where: {
+            userId: req.user.id
+        }
+    })
+
+    if (!spot) {
+        res.status(404)
+        return res.json('No spot with that ID found')
+    }
+
+    if (existingReview) {
+        res.status(403)
+        return res.json('A review already exists for the spot from the current user')
+    }
+
+    const newReview = await Review.create({
+        userId: req.user.id,
+        spotId,
+        stars,
+        review
+    })
+
+    res.json(newReview)
 })
 
 module.exports = router
