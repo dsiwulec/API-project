@@ -7,12 +7,13 @@ const router = express.Router()
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
         raw: true,
-        group: 'spotId',
+        group: 'Spot.id',
         attributes: {
             include: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]]
         },
         include: {
             model: Review,
+            group: 'Spot.id',
             attributes: []
         },
     })
