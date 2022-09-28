@@ -2,33 +2,33 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Images', [
+    return queryInterface.bulkInsert('ReviewImages', [
       {
-        name: 'Spot 1',
-        url: 'spot1.url'
+        url: 'review1.url',
+        reviewId: 1
       },
       {
-        name: 'Spot 2',
-        url: 'spot2.url'
+        url: 'review2.url',
+        reviewId: 2
       },
       {
-        name: 'Spot 3',
-        url: 'spot3.url'
+        url: 'review3.url',
+        reviewId: 3
       },
       {
-        name: 'Spot 4',
-        url: 'spot4.url'
+        url: 'review4.url',
+        reviewId: 4
       },
       {
-        name: 'Spot 5',
-        url: 'spot5.url'
+        url: 'review5.url',
+        reviewId: 5
       },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Images', {
+    return queryInterface.bulkDelete('ReviewImages', {
       name: { [Op.in]: ['Spot 1', 'Spot 2', 'Spot 3', 'Spot 4', 'Spot 5'] }
     }, {});
   }
