@@ -116,4 +116,32 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
     res.json(selectedReview)
 })
 
+router.delete('/:reviewId', requireAuth, async (req, res, next) => {
+    const { reviewId } = req.params
+    const review = await Review.findByPk(reviewId)
+
+    if (!review) {
+        const err = new Error('Review not found');
+        err.title = 'Invalid review ID';
+        err.errors = ['There is not a review associated with that review ID'];
+        err.status = 404;
+        return next(err);
+    }
+
+    if (req.user.id !== review.userId) {
+        const err = new Error('Current user is not the author of the review');
+        err.title = 'Invalid user ID';
+        err.errors = ['Only the author of the review can add images to the review'];
+        err.status = 401
+        return next(err);
+    }
+
+    try {
+        await review.destroy()
+        res.json('Review successfully deleted')
+    } catch (err) {
+        next(err)
+    }
+})
+
 module.exports = router

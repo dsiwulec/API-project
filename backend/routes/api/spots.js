@@ -1,5 +1,6 @@
 const express = require('express')
 const sequelize = require('sequelize')
+const { Op, where } = require("sequelize")
 const { requireAuth } = require('../../utils/auth')
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models')
 const router = express.Router()
@@ -47,9 +48,114 @@ const validateReview = [
     handleValidationErrors
 ];
 
+const validateQueryFilters = (pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next) => {
+    if (page && size) {
+        if (page >= 1 && size >= 1) {
+            pagination.limit = size
+            pagination.offset = size * (page - 1)
+        } else {
+            const err = new Error('Please enter valid values for page and size');
+            err.title = 'Invalid page and/or size value';
+            err.errors = ['Page and size values must be greater than 0'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (minLat) {
+        if (minLat > -90 && minLat < 90) {
+            where.lat = { [Op.gte]: minLat }
+        } else {
+            const err = new Error('Please enter a valid value for minLat');
+            err.title = 'Invalid minLat value';
+            err.errors = ['The minLat value must be between -90 and 90'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (maxLat) {
+        if (maxLat > -90 && maxLat < 90) {
+            where.lat = { [Op.lte]: maxLat }
+        } else {
+            const err = new Error('Please enter a valid value for maxLat');
+            err.title = 'Invalid maxLat value';
+            err.errors = ['The maxLat value must be between -90 and 90'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (minLng) {
+        if (minLng > -180 && minLng < 180) {
+            where.lng = { [Op.gte]: minLng }
+        } else {
+            const err = new Error('Please enter a valid value for minLng');
+            err.title = 'Invalid minLng value';
+            err.errors = ['The minLng value must be between -180 and 180'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (maxLng) {
+        if (maxLng > -180 && maxLng < 180) {
+            where.lng = { [Op.lte]: maxLng }
+        } else {
+            const err = new Error('Please enter a valid value for maxLng');
+            err.title = 'Invalid maxLng value';
+            err.errors = ['The maxLng value must be between -180 and 180'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (minPrice) {
+        if (minPrice > 0) {
+            where.price = { [Op.gte]: minPrice }
+        } else {
+            const err = new Error('Please enter a valid value for minPrice');
+            err.title = 'Invalid minPrice value';
+            err.errors = ['The minPrice value must be greater than 0'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+
+    if (maxPrice) {
+        if (maxPrice > 0) {
+            where.price = { [Op.lte]: maxPrice }
+        } else {
+            const err = new Error('Please enter a valid value for maxPrice');
+            err.title = 'Invalid maxPrice value';
+            err.errors = ['The maxPrice value must be greater than 0'];
+            err.status = 400;
+            next(err);
+            return true;
+        }
+    }
+}
+
 router.get('/', async (req, res, next) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+    const where = {}
+    const pagination = { subQuery: false }
+
+    const filterResults = validateQueryFilters(pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next)
+    console.log(filterResults)
+
+    if (!page) page = 1
+    if (!size) size = 3
+
     const spots = await Spot.findAll({
-        raw: true,
+        ...pagination,
+        where,
         group: 'Spot.id',
         attributes: {
             include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
@@ -60,7 +166,13 @@ router.get('/', async (req, res, next) => {
         },
     })
 
-    return res.json(spots)
+    if (!filterResults) {
+        return res.json({
+            spots,
+            page,
+            size
+        })
+    }
 })
 
 router.post('/', validateSpot, requireAuth, async (req, res, next) => {
@@ -327,6 +439,72 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     })
 
     res.json(newBooking)
+})
+
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const { spotId } = req.params
+    const userId = req.user.id
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        const err = new Error('Spot not found');
+        err.title = 'Invalid spot ID';
+        err.errors = ['There is not a spot associated with that spot ID'];
+        err.status = 404;
+        return next(err);
+    }
+
+    if (userId !== spot.ownerId) {
+        const bookings = await Booking.findAll({
+            where: {
+                spotId
+            },
+            attributes: ['spotId', 'startDate', 'endDate']
+        })
+
+        return res.json(bookings)
+    } else {
+        const bookings = await Booking.findAll({
+            where: {
+                spotId
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            ]
+        })
+        return res.json(bookings)
+    }
+})
+
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const { spotId } = req.params
+    const spot = await Spot.findByPk(spotId)
+
+    if (!spot) {
+        const err = new Error('Spot not found');
+        err.title = 'Invalid spot ID';
+        err.errors = ['There is not a spot associated with that spot ID'];
+        err.status = 404;
+        return next(err);
+    }
+
+    if (spot.ownerId !== req.user.id) {
+        const err = new Error('User ID does not match owner ID');
+        err.title = 'Invalid user ID';
+        err.errors = ["User ID must match owner ID to delete a spot"];
+        err.status = 401;
+        return next(err);
+    }
+
+    try {
+        await spot.destroy()
+        res.json('Spot successfully deleted')
+    } catch (err) {
+        next(err)
+    }
 })
 
 module.exports = router
