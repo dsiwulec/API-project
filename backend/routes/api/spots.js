@@ -274,8 +274,6 @@ router.get('/:spotId', async (req, res, next) => {
         }
     })
 
-    if (!spot.avgRating) spot.avgRating = 0.0
-
     if (!spot) {
         const err = new Error('Spot not found');
         err.title = 'Invalid spot ID';
@@ -283,6 +281,8 @@ router.get('/:spotId', async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+
+    if (!spot.avgRating) spot.avgRating = 0.0
 
     const spotImages = await SpotImage.findAll({
         where: {
