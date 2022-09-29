@@ -145,17 +145,14 @@ const validateQueryFilters = (pagination, where, page, size, minLat, maxLat, min
 router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
     const where = {}
-    const pagination = { subQuery: false }
+    const pagination = { limit: 3, subQuery: false }
 
     const filterResults = validateQueryFilters(pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next)
-    console.log(filterResults)
-
-    if (!page) page = 1
-    if (!size) size = 3
 
     const spots = await Spot.findAll({
         ...pagination,
         where,
+        order: ['id'],
         group: 'Spot.id',
         attributes: {
             include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
