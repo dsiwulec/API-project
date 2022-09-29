@@ -152,6 +152,7 @@ router.get('/', async (req, res, next) => {
     const spots = await Spot.findAll({
         ...pagination,
         where,
+        raw: true,
         order: ['id'],
         group: 'Spot.id',
         attributes: {
@@ -162,6 +163,10 @@ router.get('/', async (req, res, next) => {
             attributes: []
         },
     })
+
+    for (const spot of spots) {
+        if (!spot.avgRating) spot.avgRating = 0.0
+    }
 
     if (!filterResults) {
         return res.json({
@@ -264,6 +269,8 @@ router.get('/:spotId', async (req, res, next) => {
             attributes: []
         }
     })
+
+    if (!spot.avgRating) spot.avgRating = 0.0
 
     if (!spot) {
         const err = new Error('Spot not found');

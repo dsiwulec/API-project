@@ -38,7 +38,7 @@ router.post(
         const token = setTokenCookie(res, user);
 
         return res.json({
-            user,
+            ...user.toSafeObject(),
             token
         });
     }
@@ -62,7 +62,7 @@ router.get(
         if (user) {
             const token = setTokenCookie(res, user);
             return res.json({
-                user: user.toSafeObject(),
+                ...user.toSafeObject(),
                 token
             });
         } else return res.json({});
