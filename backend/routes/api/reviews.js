@@ -27,16 +27,28 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     })
 
     if (reviewImages.length > 10) {
-        restoreUser.status(400)
-        return res.json('The maximum number of images has been reached')
+        const err = new Error('Reviews can have a maximum of 10 pictures')
+        err.title = 'Review image limit exceeded'
+        err.errors = ['The current review has already reached the maximum allowed number of images']
+        err.status = 400
+        return next(err)
     }
 
     if (!review) {
-        res.status(404)
-        return res.json('Review not found')
+        const err = new Error('Review not found');
+        err.title = 'Invalid review ID';
+        err.errors = ['There is not a review associated with that review ID'];
+        err.status = 404;
+        return next(err);
     }
 
-    if (req.user.id !== review.userId) throw new Error('Only the author of the review can add images')
+    if (req.user.id !== review.userId) {
+        const err = new Error('Current user is not the author of the review');
+        err.title = 'Invalid user ID';
+        err.errors = ['Only the author of the review can add images to the review'];
+        err.status = 401
+        return next(err);
+    }
 
     const newImage = await ReviewImage.create({
         url,
@@ -81,11 +93,20 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
     const selectedReview = await Review.findByPk(reviewId)
 
     if (!selectedReview) {
-        res.status(404)
-        return res.json('Review not found')
+        const err = new Error('Review not found');
+        err.title = 'Invalid review ID';
+        err.errors = ['There is not a review associated with that review ID'];
+        err.status = 404;
+        return next(err);
     }
 
-    if (selectedReview.userId !== user) throw new Error('Only the author of the review can edit')
+    if (selectedReview.userId !== user) {
+        const err = new Error('Current user is not the author of the review');
+        err.title = 'Invalid user ID';
+        err.errors = ['Only the author of the review can edit the review'];
+        err.status = 401
+        return next(err);
+    }
 
     await selectedReview.update({
         review,
