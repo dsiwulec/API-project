@@ -105,7 +105,9 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     if (booking.userId === req.user.id || spot.ownerId === req.user.id) {
         try {
             await booking.destroy()
-            res.json('Booking successfully deleted')
+            res.json({
+                message: 'Booking successfully deleted'
+            })
         } catch (err) {
             next(err)
         }

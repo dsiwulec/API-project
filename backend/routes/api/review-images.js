@@ -27,7 +27,9 @@ router.delete('/:reviewImageId', requireAuth, async (req, res, next) => {
 
     try {
         await reviewImage.destroy()
-        res.json('Review image successfully deleted')
+        res.json({
+            message: 'Review image successfully deleted'
+        })
     } catch (err) {
         next(err)
     }
