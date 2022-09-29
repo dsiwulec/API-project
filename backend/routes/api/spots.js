@@ -247,6 +247,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
         },
     })
 
+    for (const spot of spots) {
+        if (!spot.avgRating) spot.avgRating = 0.0
+    }
+
     return res.json(spots)
 })
 
