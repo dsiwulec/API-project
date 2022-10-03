@@ -1,153 +1,17 @@
 const express = require('express')
 const sequelize = require('sequelize')
-const { Op, where } = require("sequelize")
 const { requireAuth } = require('../../utils/auth')
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models')
+const { validateSpot, validateReview, validateBooking, validateQueryFilters, assignSearchFilters } = require('../../utils/validation')
 const router = express.Router()
-const { check } = require('express-validator')
-const { handleValidationErrors } = require('../../utils/validation')
 
-const validateSpot = [
-    check('address')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid address.'),
-    check('city')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid city.'),
-    check('state')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid state.'),
-    check('country')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid country.'),
-    check('lat')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid latitude.'),
-    check('lng')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid longitude.'),
-    check('name')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid name.'),
-    check('description')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid description.'),
-    check('price')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid price.'),
-    handleValidationErrors
-];
 
-const validateReview = [
-    check('review')
-        .exists({ checkFalsy: true })
-        .withMessage('The review text cannot be empty.'),
-    check('stars')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid rating from 1-5.'),
-    handleValidationErrors
-];
-
-const validateQueryFilters = (pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next) => {
-    if (page && size) {
-        if (page >= 1 && size >= 1) {
-            pagination.limit = size
-            pagination.offset = size * (page - 1)
-        } else {
-            const err = new Error('Please enter valid values for page and size');
-            err.title = 'Invalid page and/or size value';
-            err.errors = ['Page and size values must be greater than 0'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (minLat) {
-        if (minLat > -90 && minLat < 90) {
-            where.lat = { [Op.gte]: minLat }
-        } else {
-            const err = new Error('Please enter a valid value for minLat');
-            err.title = 'Invalid minLat value';
-            err.errors = ['The minLat value must be between -90 and 90'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (maxLat) {
-        if (maxLat > -90 && maxLat < 90) {
-            where.lat = { [Op.lte]: maxLat }
-        } else {
-            const err = new Error('Please enter a valid value for maxLat');
-            err.title = 'Invalid maxLat value';
-            err.errors = ['The maxLat value must be between -90 and 90'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (minLng) {
-        if (minLng > -180 && minLng < 180) {
-            where.lng = { [Op.gte]: minLng }
-        } else {
-            const err = new Error('Please enter a valid value for minLng');
-            err.title = 'Invalid minLng value';
-            err.errors = ['The minLng value must be between -180 and 180'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (maxLng) {
-        if (maxLng > -180 && maxLng < 180) {
-            where.lng = { [Op.lte]: maxLng }
-        } else {
-            const err = new Error('Please enter a valid value for maxLng');
-            err.title = 'Invalid maxLng value';
-            err.errors = ['The maxLng value must be between -180 and 180'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (minPrice) {
-        if (minPrice > 0) {
-            where.price = { [Op.gte]: minPrice }
-        } else {
-            const err = new Error('Please enter a valid value for minPrice');
-            err.title = 'Invalid minPrice value';
-            err.errors = ['The minPrice value must be greater than 0'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-
-    if (maxPrice) {
-        if (maxPrice > 0) {
-            where.price = { [Op.lte]: maxPrice }
-        } else {
-            const err = new Error('Please enter a valid value for maxPrice');
-            err.title = 'Invalid maxPrice value';
-            err.errors = ['The maxPrice value must be greater than 0'];
-            err.status = 400;
-            next(err);
-            return true;
-        }
-    }
-}
-
-router.get('/', async (req, res, next) => {
+router.get('/', validateQueryFilters, async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
     const where = {}
-    const pagination = { limit: 3, subQuery: false }
+    const pagination = { subQuery: false }
 
-    const filterResults = validateQueryFilters(pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next)
+    assignSearchFilters(pagination, where, page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice, next)
 
     const spots = await Spot.findAll({
         ...pagination,
@@ -168,13 +32,11 @@ router.get('/', async (req, res, next) => {
         if (!spot.avgRating) spot.avgRating = 0.0
     }
 
-    if (!filterResults) {
-        return res.json({
-            spots,
-            page,
-            size
-        })
-    }
+    return res.json({
+        Spots: spots,
+        page,
+        size
+    })
 })
 
 router.post('/', validateSpot, requireAuth, async (req, res, next) => {
@@ -251,7 +113,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         if (!spot.avgRating) spot.avgRating = 0.0
     }
 
-    return res.json(spots)
+    return res.json({
+        Spots: spots
+    })
 })
 
 router.get('/:spotId', async (req, res, next) => {
@@ -265,8 +129,9 @@ router.get('/:spotId', async (req, res, next) => {
         attributes: {
             include: [
                 [sequelize.fn('COUNT', sequelize.col('stars')), 'numReviews'],
-                [sequelize.fn('ROUND', sequelize.fn('AVG', sequelize.col('stars')), 1), 'avgRating']
-            ]
+                [sequelize.fn('ROUND', sequelize.fn('AVG', sequelize.col('stars')), 1), 'avgStarRating']
+            ],
+            exclude: ['previewImage']
         },
         include: {
             model: Review,
@@ -282,7 +147,7 @@ router.get('/:spotId', async (req, res, next) => {
         return next(err);
     }
 
-    if (!spot.avgRating) spot.avgRating = 0.0
+    if (!spot.avgStarRating) spot.avgStarRating = 0.0
 
     const spotImages = await SpotImage.findAll({
         where: {
@@ -303,16 +168,23 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
     res.json({
-        spot,
-        spotImages,
-        spotOwner
+        ...spot,
+        SpotImages: spotImages,
+        Owner: spotOwner
     })
 })
 
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { spotId } = req.params
     const { address, city, state, country, lat, lng, name, descirption, price } = req.body
-    const spot = await Spot.findByPk(spotId)
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        },
+        attributes: {
+            exclude: ['previewImage']
+        }
+    })
 
     if (!spot) {
         const err = new Error('Spot not found');
@@ -354,7 +226,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     }
 
     if (existingReview) {
-        const err = new Error('Users can only submit one review per spot')
+        const err = new Error('User already has a review for this spot')
         err.title = 'Review limit exceeded'
         err.errors = ['A review already exists for this spot from the current user']
         err.status = 403
@@ -399,10 +271,12 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         ]
     })
 
-    res.json(reviews)
+    res.json({
+        Reviews: reviews
+    })
 })
 
-router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const { spotId } = req.params
     const userId = req.user.id
     const { startDate, endDate } = req.body
@@ -424,9 +298,12 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     }
 
     if (existingBooking) {
-        const err = new Error('Start and end date conflict');
+        const err = new Error('Sorry, this spot is already booked for the specified dates');
         err.title = 'Invalid booking dates';
-        err.errors = ["The selected start and end dates overlap with another booking at the selected spot"];
+        err.errors = {
+            "startDate": "Start date conflicts with an existing booking",
+            "endDate": "End date conflicts with an existing booking"
+        };
         err.status = 403;
         return next(err);
     }
@@ -470,7 +347,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             attributes: ['spotId', 'startDate', 'endDate']
         })
 
-        return res.json(bookings)
+        return res.json({
+            Bookings: bookings
+        })
     } else {
         const bookings = await Booking.findAll({
             where: {
@@ -483,7 +362,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 }
             ]
         })
-        return res.json(bookings)
+        return res.json({
+            Bookings: bookings
+        })
     }
 })
 

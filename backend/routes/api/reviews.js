@@ -2,19 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { requireAuth } = require('../../utils/auth')
 const { Review, ReviewImage, Spot, User } = require('../../db/models')
-const { restoreUser } = require('../../utils/auth')
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { validateReview } = require('../../utils/validation');
 
-const validateReview = [
-    check('review')
-        .exists({ checkFalsy: true })
-        .withMessage('The review text cannot be empty.'),
-    check('stars')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a valid rating from 1-5.'),
-    handleValidationErrors
-];
 
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const { url } = req.body
@@ -27,8 +16,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     })
 
     if (reviewImages.length > 10) {
-        const err = new Error('Reviews can have a maximum of 10 pictures')
-        err.title = 'Review image limit exceeded'
+        const err = new Error('Maximum number of images for this resource was reached')
+        err.title = 'Review image limit reached'
         err.errors = ['The current review has already reached the maximum allowed number of images']
         err.status = 400
         return next(err)
@@ -83,7 +72,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     })
 
-    res.json(reviews)
+    res.json({
+        Reviews: reviews
+    })
 })
 
 router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {

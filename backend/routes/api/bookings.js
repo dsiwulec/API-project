@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Booking, Spot } = require('../../db/models')
 const { requireAuth } = require('../../utils/auth')
+const { validateBooking } = require('../../utils/validation')
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const userId = req.user.id
@@ -19,10 +20,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     })
 
-    res.json(bookings)
+    res.json({
+        Bookings: bookings
+    })
 })
 
-router.put('/:bookingId', requireAuth, async (req, res, next) => {
+router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {
     const date = new Date()
     const currentDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
     const { bookingId } = req.params
@@ -55,7 +58,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     }
 
     if (existingBooking) {
-        const err = new Error('Start and end date conflict');
+        const err = new Error("Sorry, this spot is already booked for the specified dates");
         err.title = 'Invalid booking dates';
         err.errors = ["The selected start and end dates overlap with another booking at the selected spot"];
         err.status = 403;
@@ -63,7 +66,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     }
 
     if (endDate < currentDate) {
-        const err = new Error('Booking has expired');
+        const err = new Error("Past bookings can't be modified");
         err.title = 'Invalid booking';
         err.errors = ["Bookings can't be edited after the end date"];
         err.status = 400;
@@ -95,7 +98,7 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(booking.spotId)
 
     if (booking.startDate < currentDate) {
-        const err = new Error('Booking start date has passed');
+        const err = new Error("Bookings that have been started can't be deleted");
         err.title = 'Invalid delete request';
         err.errors = ["Bookings can't be be deleted after the assoicated start date has passed"];
         err.status = 400;
