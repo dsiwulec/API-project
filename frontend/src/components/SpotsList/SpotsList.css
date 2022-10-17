@@ -1,0 +1,5 @@
+#spots-grid {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax(275px, 375px));
+}
