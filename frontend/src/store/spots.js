@@ -43,16 +43,15 @@ export const actionCreateNewSpot = spotDetails => ({
 })
 
 
-const spotsReducer = (state = {}, action) => {
+const spotsReducer = (state = { allSpots: {}, spotDetails: {} }, action) => {
     switch (action.type) {
         case LOAD_SPOTS:
-            const allSpots = {}
             action.spots.forEach(spot => {
-                allSpots[spot.id] = spot
+                state.allSpots[spot.id] = spot
             })
-            return { ...state, allSpots }
+            return { ...state }
         case LOAD_SPOT_DETAILS:
-            return { ...state, spotDetails: action.spot }
+            return { ...state, spotDetails: { ...action.spot } }
         default:
             return state
     }
