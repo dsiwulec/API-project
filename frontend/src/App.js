@@ -19,7 +19,7 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/signup" component={SignupFormPage} />
+          {/* <Route path="/signup" component={SignupFormPage} /> */}
           <Route path='/spots/:spotId' component={SpotDetailsPage} />
           <Route exact path="/" component={SpotsSplashPage} />
         </Switch>

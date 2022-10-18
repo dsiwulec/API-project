@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 import './LoginButton.css'
 
-function LoginFormModal() {
+function SignupFormModal() {
     const [showModal, setShowModal] = useState(false);
 
     const onClick = event => {
@@ -13,14 +13,14 @@ function LoginFormModal() {
 
     return (
         <>
-            <button onClick={onClick}>Log In</button>
+            <button onClick={onClick}>Sign Up</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <LoginForm />
+                    <SignupForm />
                 </Modal>
             )}
         </>
     );
 }
 
-export default LoginFormModal;
+export default SignupFormModal;

@@ -79,12 +79,22 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     })
 
     if (spot.previewImage !== null) {
-        const oldId = spot.previewImage
-        const oldPreview = await SpotImage.findByPk(oldId)
+        const oldPreview = await SpotImage.findOne({
+            where: {
+                url: spot.previewImage,
+                preview: true,
+                spotId: spot.id
+            }
+        })
+
         await oldPreview.update({ preview: false })
     }
+    //     const oldId = spot.previewImage
+    //     const oldPreview = await SpotImage.findByPk(oldId)
+    //     await oldPreview.update({ preview: false })
+    // }
 
-    await spot.update({ previewImage: newImage.id })
+    await spot.update({ previewImage: newImage.url })
 
     res.json({
         id: newImage.id,

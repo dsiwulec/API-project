@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneSpot } from "../../store/spots";
@@ -15,7 +15,7 @@ const SpotDetailsPage = () => {
 
     return (
         <div>
-            <p>Hello</p>
+            <p>{spotDetails.name}</p>
         </div>
     )
 }
