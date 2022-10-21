@@ -21,7 +21,7 @@ const SpotDetailsPage = () => {
 
     useEffect(() => {
         dispatch(getOneSpot(spotId))
-    }, [dispatch, spotId])
+    }, [dispatch, spotId, userReviewsForSpot])
 
     useEffect(() => {
         dispatch(getSpotReviews(spotId))
