@@ -106,6 +106,7 @@ const spotsReducer = (state = { allSpots: {}, spotDetails: {} }, action) => {
             return { ...state }
 
         case LOAD_SPOT_DETAILS:
+            delete state.spotDetails
             return { ...state, spotDetails: { ...action.spot } }
 
         case CREATE_NEW_SPOT:
