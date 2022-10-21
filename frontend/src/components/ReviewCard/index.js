@@ -6,7 +6,7 @@ const ReviewCard = ({ review }) => {
     const month = new Intl.DateTimeFormat('en-US', { month: "long" }).format(new Date(review.createdAt))
     const year = new Date(review.createdAt).getFullYear()
 
-    const userId = useSelector(state => state.session.user.id)
+    const user = useSelector(state => state.session.user)
 
     return (
         <div className='review-card'>
@@ -15,7 +15,7 @@ const ReviewCard = ({ review }) => {
                 <div className="review-info">
                     {review.User && <div className="review-info-top">
                         <p>{review.User.firstName}</p>
-                        {userId === review.User.id && <DeleteReviewModal />}
+                        {user.id === review.User.id && <DeleteReviewModal />}
                     </div>}
                     <p className='date'>{month} {year}</p>
                 </div>
