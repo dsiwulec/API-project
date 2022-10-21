@@ -15,7 +15,7 @@ const ReviewCard = ({ review }) => {
                 <div className="review-info">
                     {review.User && <div className="review-info-top">
                         <p>{review.User.firstName}</p>
-                        {user.id === review.User.id && <DeleteReviewModal />}
+                        {user && user.id === review.User.id && <DeleteReviewModal />}
                     </div>}
                     <p className='date'>{month} {year}</p>
                 </div>
