@@ -11,10 +11,24 @@ li {
     padding: 10px 80px
 }
 
+#logo {
+    height: 40px;
+}
 
 #home-logo {
-    width: 115px;
-    height: auto;
+    display: flex;
+    align-items: center;
+    height: 40px
+}
+
+#home-logo>.fa-brands {
+    font-size: 40px;
+    color: #ff385c
+}
+
+#home-logo>h2 {
+    margin: 0px;
+    color: #ff385c
 }
 
 #user-nav {
