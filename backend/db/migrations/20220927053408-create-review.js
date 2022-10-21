@@ -21,14 +21,15 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Spots'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       stars: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       review: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

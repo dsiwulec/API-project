@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import SignupForm from './SignupForm';
+import DeleteSpotForm from './DeleteSpotForm';
+import './DeleteSpot.css'
 
-function SignupFormModal() {
+
+function DeleteSpotModal() {
     const [showModal, setShowModal] = useState(false);
 
     const onClick = event => {
@@ -12,14 +14,14 @@ function SignupFormModal() {
 
     return (
         <>
-            <button onClick={onClick}>Sign Up</button>
+            <button id='delete' onClick={onClick}>Delete</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <SignupForm />
+                    <DeleteSpotForm setShowModal={setShowModal} />
                 </Modal>
             )}
         </>
     );
 }
 
-export default SignupFormModal;
+export default DeleteSpotModal;

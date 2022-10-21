@@ -29,6 +29,7 @@ li {
 
 #user-nav:hover {
     box-shadow: 0px 2px #DDDDDD;
+    cursor: pointer;
 }
 
 .fa-solid {
@@ -53,4 +54,15 @@ li {
     top: 68px;
     height: 75px;
     width: 250px;
+}
+
+.profile-dropdown {
+    width: 250px;
+    align-self: flex-end;
+}
+
+#host {
+    position: absolute;
+    top: 28px;
+    right: 180px;
 }

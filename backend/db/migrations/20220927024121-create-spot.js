@@ -13,7 +13,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       address: {
         type: Sequelize.STRING,
@@ -33,26 +34,24 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.DECIMAL,
-        allowNull: false
+        type: Sequelize.DECIMAL
       },
       lng: {
-        type: Sequelize.DECIMAL,
-        allowNull: false
+        type: Sequelize.DECIMAL
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       price: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       previewImage: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,

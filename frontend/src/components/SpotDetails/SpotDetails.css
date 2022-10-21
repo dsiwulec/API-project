@@ -1,0 +1,132 @@
+#reviews-link {
+    text-decoration: underline;
+}
+
+
+h2 {
+    margin: 0px;
+    margin-top: 25px;
+}
+
+.overview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px;
+}
+
+.details-page {
+    padding: 0px 80px;
+    height: 100%;
+    max-width: 1200px;
+    grid-template-columns: repeat(2, 50%);
+    margin: auto
+}
+
+.description-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-right: 20px;
+}
+
+.review-section-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#review-header-left {
+    display: flex;
+    align-items: center;
+}
+
+#only-preview {
+    object-fit: cover;
+    max-height: 600px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+#spot-details-preview {
+    object-fit: cover;
+    width: 100%;
+    min-height: 100%;
+    max-height: 560px;
+}
+
+h3 {
+    font-weight: 500;
+}
+
+#edit-spot:hover {
+    font-weight: 500;
+}
+
+.details-header {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.overview {
+    width: 98.5%;
+    justify-content: space-between;
+}
+
+#left-overview {
+    display: flex;
+    align-items: center;
+}
+
+.reviews {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 50% 50%;
+    column-gap: 25px;
+    row-gap: 50px;
+    margin-top: 15px;
+}
+
+#picture-gallery {
+    box-sizing: border-box;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    gap: 1%;
+    max-height: 560px;
+}
+
+#picture-gallery>img {
+    max-height: 98%;
+    width: 98%;
+    object-fit: cover;
+}
+
+.spot-images {
+    display: flex;
+    flex-direction: row;
+}
+
+#gallery-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: 1%;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.night {
+    font-weight: 350;
+    font-size: 18px;
+}
+
+#spot-description {
+    margin: 20px 0px;
+    padding: 30px 0px;
+    border-top: 1px solid rgb(215, 215, 215);
+    border-bottom: 1px solid rgb(215, 215, 215)
+}

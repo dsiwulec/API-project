@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import CreateSpotModal from '../CreateSpotModal';
 import './Navigation.css';
 import logo from '../../assets/logo.png'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-    const [menuState, setMenuState] = useState(false)
+    const [showMenu, setShowMenu] = useState(false)
 
     let sessionLinks;
     if (sessionUser) {
@@ -20,35 +21,45 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <LoginFormModal />
-                <SignupFormModal />
+                <LoginFormModal className="modal" />
+                <SignupFormModal className="modal" />
             </>
         );
     }
 
-    // useEffect(() => {
-    //     window.addEventListener('click', event => {
-    //         if (event.target.closest('#user-nav') === null) {
-    //             setMenuState(false)
-    //         }
-    //     });
-    // }, [])
-
     const toggleMenu = () => {
-        setMenuState(!menuState)
+        setShowMenu(!showMenu)
     }
+
+    // const openMenu = () => {
+    //     if (showMenu) return;
+    //     setShowMenu(true);
+    // };
+
+    // useEffect(() => {
+    //     if (!showMenu) return;
+
+    //     const closeMenu = (event) => {
+    //         if (event.currentTarget !== '.modal') setShowMenu(false);
+    //     };
+
+    //     document.addEventListener('click', closeMenu);
+
+    //     return () => document.removeEventListener("click", closeMenu);
+    // }, [showMenu]);
 
     return (
         <div className='nav-bar'>
             <NavLink exact to="/" >
                 <img id='home-logo' src={logo} alt="logo" />
             </NavLink>
+            {sessionUser && <CreateSpotModal />}
             <button id='user-nav' onClick={toggleMenu}>
                 <i className="fa-solid fa-bars"></i>
                 <i className="fa-solid fa-circle-user"></i>
             </button>
-            {menuState && <div id='expanded-menu'>
-                {menuState && isLoaded && sessionLinks}
+            {showMenu && <div id='expanded-menu'>
+                {showMenu && isLoaded && sessionLinks}
             </div>}
         </div>
     );

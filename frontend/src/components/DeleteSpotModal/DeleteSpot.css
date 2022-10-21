@@ -1,17 +1,24 @@
-.signup {
+.create-spot {
     border: 1px solid rgb(175, 175, 175);
     border-radius: 7px;
     height: 50px;
     margin: 5px 0px;
 }
 
-#signup-button {
-    margin: 25px 0px;
+#button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.delete-form-buttons {
+    margin-top: 10px;
+    margin-bottom: 25px;
     color: white;
     text-justify: center;
     text-align: center;
     height: 50px;
-    width: 100%;
+    width: 48%;
     border-radius: 5px;
     background: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
 }
@@ -20,10 +27,19 @@
     margin-bottom: 20px;
 }
 
-button {
-    font-size: 16px;
-    padding: 0px;
-    border: none;
-    background: none;
-    width: fit-content;
+textarea {
+    resize: none;
+    height: 125px;
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 7px;
+    margin: 5px 0px;
+}
+
+h4 {
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+#delete {
+    margin-left: 15px;
 }
