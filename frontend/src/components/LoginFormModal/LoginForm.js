@@ -16,10 +16,9 @@ function LoginForm({ setShowModal }) {
             async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
+                else setShowModal(false)
             }
         );
-
-        setShowModal(false)
     };
 
     return (

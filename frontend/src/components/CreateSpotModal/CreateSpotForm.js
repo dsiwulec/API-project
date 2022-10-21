@@ -41,9 +41,11 @@ function CreateSpotForm({ setShowModal }) {
                 if (data && data.errors) setErrors(data.errors)
             });
 
-        setShowModal(false)
-        history.push(`/spots/${spot.id}`)
-        return spot
+        if (spot) {
+            setShowModal(false)
+            history.push(`/spots/${spot.id}`)
+            return spot
+        }
     }
 
     return (
