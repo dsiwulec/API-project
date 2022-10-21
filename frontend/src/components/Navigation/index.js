@@ -7,7 +7,6 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import CreateSpotModal from '../CreateSpotModal';
 import './Navigation.css';
-import logo from '../../assets/logo.png'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
@@ -21,40 +20,34 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <LoginFormModal className="modal" />
-                <SignupFormModal className="modal" />
+                <LoginFormModal />
+                <SignupFormModal />
             </>
         );
     }
 
-    const toggleMenu = () => {
-        setShowMenu(!showMenu)
-    }
-
-    // const openMenu = () => {
-    //     if (showMenu) return;
-    //     setShowMenu(true);
-    // };
-
     // useEffect(() => {
     //     if (!showMenu) return;
 
-    //     const closeMenu = (event) => {
-    //         if (event.currentTarget !== '.modal') setShowMenu(false);
+    //     const closeMenu = () => {
+    //         setShowMenu(false);
     //     };
 
     //     document.addEventListener('click', closeMenu);
 
-    //     return () => document.removeEventListener("click", closeMenu);
+    //     return () => document.removeEventListener('click', closeMenu);
     // }, [showMenu]);
 
     return (
         <div className='nav-bar'>
             <NavLink exact to="/" >
-                <img id='home-logo' src={logo} alt="logo" />
+                <div id="home-logo">
+                    <i className="fa-brands fa-airbnb"></i>
+                    <h2>irNomad</h2>
+                </div>
             </NavLink>
             {sessionUser && <CreateSpotModal />}
-            <button id='user-nav' onClick={toggleMenu}>
+            <button id='user-nav' onClick={() => setShowMenu(!showMenu)}>
                 <i className="fa-solid fa-bars"></i>
                 <i className="fa-solid fa-circle-user"></i>
             </button>
