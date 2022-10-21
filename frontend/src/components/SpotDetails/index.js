@@ -74,7 +74,7 @@ const SpotDetailsPage = () => {
                     <div id="review-header-left">
                         {spotDetails && <h3>&#9733;{spotDetails.avgStarRating} · {spotDetails.numReviews} reviews</h3>}
                     </div>
-                    {sessionUser && spotDetails && sessionUser.id !== spotDetails.Owner.id && <CreateReviewModal />}
+                    {sessionUser && spotDetails && spotDetails.Owner && sessionUser.id !== spotDetails.Owner.id && <CreateReviewModal />}
                 </div>
                 <div className="reviews">
                     {spotReviews.map(review => (<ReviewCard key={review.id} review={review} />))}
