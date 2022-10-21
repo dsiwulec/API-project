@@ -4,3 +4,35 @@
     height: 325px;
     object-fit: cover;
 }
+
+p {
+    font-weight: 500;
+}
+
+.night-text {
+    font-weight: 350
+}
+
+#card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px
+}
+
+#card-right {
+    font-size: 17px;
+}
+
+#card-right>.star {
+    font-size: 19px;
+}
+
+#card-left {
+    font-size: 19px;
+}
+
+#card-right {
+    display: flex;
+    align-items: center;
+}

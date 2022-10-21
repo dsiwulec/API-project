@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import SignupForm from './SignupForm';
+import EditSpotForm from './EditSpotForm';
+import './EditSpot.css'
 
-function SignupFormModal() {
+
+function EditSpotModal() {
     const [showModal, setShowModal] = useState(false);
 
     const onClick = event => {
@@ -12,14 +14,14 @@ function SignupFormModal() {
 
     return (
         <>
-            <button onClick={onClick}>Sign Up</button>
+            <button onClick={onClick}>Edit</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <SignupForm />
+                    <EditSpotForm setShowModal={setShowModal} />
                 </Modal>
             )}
         </>
     );
 }
 
-export default SignupFormModal;
+export default EditSpotModal;

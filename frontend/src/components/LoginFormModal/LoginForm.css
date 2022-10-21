@@ -11,6 +11,7 @@ form {
 }
 
 .username {
+    margin-top: 20px;
     border: 1px solid rgb(175, 175, 175);
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;

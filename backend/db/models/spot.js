@@ -14,13 +14,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ownerId'
       })
       Spot.hasMany(models.Booking, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
       })
       Spot.hasMany(models.SpotImage, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
       })
       Spot.hasMany(models.Review, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
       })
     }
   }
@@ -48,25 +51,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat: {
       type: DataTypes.DECIMAL,
-      allowNull: false
     },
     lng: {
       type: DataTypes.DECIMAL,
-      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     price: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
     previewImage: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     }
   }, {
     sequelize,

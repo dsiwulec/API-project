@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'spotId'
       })
       Review.hasMany(models.ReviewImage, {
-        foreignKey: 'reviewId'
+        foreignKey: 'reviewId',
+        onDelete: 'CASCADE'
       })
     }
   }
@@ -34,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    review: DataTypes.STRING
+    review: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Review',

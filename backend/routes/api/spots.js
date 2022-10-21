@@ -223,7 +223,8 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     const spot = await Spot.findByPk(spotId)
     const existingReview = await Review.findOne({
         where: {
-            userId: req.user.id
+            userId: req.user.id,
+            spotId
         }
     })
 
@@ -245,7 +246,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
     const newReview = await Review.create({
         userId: req.user.id,
-        spotId,
+        spotId: Number(spotId),
         stars,
         review
     })

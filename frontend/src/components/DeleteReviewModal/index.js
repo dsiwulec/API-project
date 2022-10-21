@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import SignupForm from './SignupForm';
+import DeleteReviewForm from './DeleteReviewForm';
 
-function SignupFormModal() {
+
+function DeleteReviewModal() {
     const [showModal, setShowModal] = useState(false);
 
     const onClick = event => {
@@ -12,14 +13,14 @@ function SignupFormModal() {
 
     return (
         <>
-            <button onClick={onClick}>Sign Up</button>
+            <button id='delete' onClick={onClick}>Delete</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <SignupForm />
+                    <DeleteReviewForm setShowModal={setShowModal} />
                 </Modal>
             )}
         </>
     );
 }
 
-export default SignupFormModal;
+export default DeleteReviewModal;
