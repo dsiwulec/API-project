@@ -26,8 +26,10 @@ function CreateReviewForm({ setShowModal }) {
                 if (data && data.errors) setErrors(data.errors)
             });
 
-        setShowModal(false)
-        return newReview
+        if (newReview) {
+            setShowModal(false)
+            return newReview
+        }
     }
 
     return (
