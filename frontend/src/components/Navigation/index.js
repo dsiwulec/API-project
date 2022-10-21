@@ -20,23 +20,23 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <LoginFormModal />
-                <SignupFormModal />
+                <LoginFormModal className="modal" />
+                <SignupFormModal className="modal" />
             </>
         );
     }
 
-    // useEffect(() => {
-    //     if (!showMenu) return;
+    useEffect(() => {
+        if (!showMenu) return;
 
-    //     const closeMenu = () => {
-    //         setShowMenu(false);
-    //     };
+        const closeMenu = (event) => {
+            if (event.target.closest('#modal-content') === null) setShowMenu(false);
+        };
 
-    //     document.addEventListener('click', closeMenu);
+        document.addEventListener('click', closeMenu);
 
-    //     return () => document.removeEventListener('click', closeMenu);
-    // }, [showMenu]);
+        return () => document.removeEventListener('click', closeMenu);
+    }, [showMenu]);
 
     return (
         <div className='nav-bar'>
@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
                 <i className="fa-solid fa-circle-user"></i>
             </button>
             {showMenu && <div id='expanded-menu'>
-                {showMenu && isLoaded && sessionLinks}
+                {isLoaded && sessionLinks}
             </div>}
         </div>
     );
