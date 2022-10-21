@@ -100,7 +100,7 @@ h3 {
 }
 
 #picture-gallery>img {
-    max-height: 98%;
+    height: 98%;
     width: 98%;
     object-fit: cover;
 }
