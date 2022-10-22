@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewReview } from "../../store/reviews";
-import StarRating from "../StarRating";
+// import StarRating from "../StarRating";
 
 function CreateReviewForm({ setShowModal }) {
     const dispatch = useDispatch();
@@ -38,7 +38,17 @@ function CreateReviewForm({ setShowModal }) {
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>}
             <h2 className="header-text">How was your stay?</h2>
-            <StarRating stars={stars} setStars={setStars} />
+            <label>Select a rating:</label>
+
+            <select onChange={(e) => setStars(e.target.value)}>
+                <option value="">--Please Select a Rating--</option>
+                <option value="+1">&#9733;</option>
+                <option value="+2">&#9733;&#9733;</option>
+                <option value="+3">&#9733;&#9733;&#9733;</option>
+                <option value="+4">&#9733;&#9733;&#9733;&#9733;</option>
+                <option value="+5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+            </select>
+            {/* <StarRating stars={stars} setStars={setStars} /> */}
             <textarea
                 placeholder="Review"
                 type="text"
