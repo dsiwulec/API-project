@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewReview } from "../../store/reviews";
-// import StarRating from "../StarRating";
 
 function CreateReviewForm({ setShowModal }) {
     const dispatch = useDispatch();
@@ -48,7 +47,6 @@ function CreateReviewForm({ setShowModal }) {
                 <option value="+4">&#9733;&#9733;&#9733;&#9733;</option>
                 <option value="+5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
             </select>
-            {/* <StarRating stars={stars} setStars={setStars} /> */}
             <textarea
                 placeholder="Review"
                 type="text"

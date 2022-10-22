@@ -13,3 +13,8 @@ a {
 button:hover {
     cursor: pointer;
 }
+
+#modal-content {
+    max-height: 90%;
+    overflow-y: auto;
+}
