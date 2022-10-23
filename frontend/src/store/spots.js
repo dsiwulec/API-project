@@ -92,7 +92,7 @@ export const deleteSpot = spotId => async dispatch => {
         method: 'DELETE'
     })
 
-    if (response.ok) {
+    if (response) {
         dispatch(deleteThisSpot(spotId))
     }
 }
