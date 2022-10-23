@@ -34,6 +34,7 @@
 
 .review-body {
     margin-top: 10px;
+    word-wrap: break-word;
 }
 
 .review-info-top {
