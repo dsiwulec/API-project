@@ -22,6 +22,14 @@ const handleValidationErrors = (req, _res, next) => {
 };
 
 const validateSignup = [
+    check('firstName')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 25 })
+        .withMessage('First names must be 25 characters or less'),
+    check('lastName')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 25 })
+        .withMessage('Last names must be 25 characters or less'),
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
@@ -30,8 +38,8 @@ const validateSignup = [
         .withMessage('Email must be 50 characters or less'),
     check('username')
         .exists({ checkFalsy: true })
-        .isLength({ min: 4, max: 50 })
-        .withMessage('Usernames must be betwwen 4 and 50 characters'),
+        .isLength({ min: 4, max: 25 })
+        .withMessage('Usernames must be betwwen 4 and 25 characters'),
     check('username')
         .not()
         .isEmail()
