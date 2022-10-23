@@ -14,6 +14,7 @@ function CreateSpotForm({ setShowModal }) {
     const [description, setDescription] = useState("")
     const [price, setPrice] = useState("")
     const [previewUrl, setPreviewUrl] = useState("")
+    const [characterCount, setCharacterCount] = useState(0)
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
@@ -54,52 +55,88 @@ function CreateSpotForm({ setShowModal }) {
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>}
             <h2 className="header-text">Become an Airbnb Host</h2>
+            <div className="input-group">
+                <input
+                    className="create-spot"
+                    placeholder="Address"
+                    type="text"
+                    value={address}
+                    onChange={(e) => {
+                        setAddress(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={50}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
+            <div className="input-group">
+                <input
+                    className="create-spot"
+                    placeholder="City"
+                    type="text"
+                    value={city}
+                    onChange={(e) => {
+                        setCity(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={50}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
+            <div className="input-group">
+                <input
+                    className="create-spot"
+                    placeholder="State"
+                    type="text"
+                    value={state}
+                    onChange={(e) => {
+                        setState(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={50}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
+            <div className="input-group">
+                <input
+                    className="create-spot"
+                    placeholder="Country"
+                    type="text"
+                    value={country}
+                    onChange={(e) => {
+                        setCountry(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={50}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
+            <div className="input-group">
+                <input
+                    className="create-spot"
+                    placeholder="Name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                        setName(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={100}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/100</div>
+            </div>
             <input
-                className="create-spot"
-                placeholder="Address"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-                maxLength={100}
-            />
-            <input
-                className="create-spot"
-                placeholder="City"
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-                maxLength={100}
-            />
-            <input
-                className="create-spot"
-                placeholder="State"
-                type="text"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                required
-                maxLength={100}
-            />
-            <input
-                className="create-spot"
-                placeholder="Country"
-                type="text"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-                maxLength={100}
-            />
-            <input
-                className="create-spot"
-                placeholder="Name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                maxLength={100}
-            />
-            <input
+                id="price"
                 className="create-spot"
                 placeholder="Price"
                 type="number"
@@ -109,6 +146,7 @@ function CreateSpotForm({ setShowModal }) {
                 min={1}
             />
             <input
+                id="preview-image"
                 className="create-spot"
                 placeholder="Preview Image URL"
                 type="url"
@@ -116,14 +154,21 @@ function CreateSpotForm({ setShowModal }) {
                 onChange={(e) => setPreviewUrl(e.target.value)}
                 required
             />
-            <textarea
-                placeholder="Description"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                maxLength={1000}
-            ></textarea>
+            <div className="input-group">
+                <textarea
+                    placeholder="Description"
+                    type="text"
+                    value={description}
+                    onChange={(e) => {
+                        setDescription(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={1000}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                ></textarea>
+                <div className="character-count">{characterCount}/1000</div>
+            </div>
             <button id="signup-button" type="submit">Start Hosting</button>
         </form>
     );

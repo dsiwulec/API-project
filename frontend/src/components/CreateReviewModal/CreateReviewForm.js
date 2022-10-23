@@ -7,6 +7,7 @@ function CreateReviewForm({ setShowModal }) {
     const spotId = useSelector(state => state.spots.spotDetails.id)
     const [review, setReview] = useState("")
     const [stars, setStars] = useState(0)
+    const [characterCount, setCharacterCount] = useState(0)
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
@@ -47,14 +48,21 @@ function CreateReviewForm({ setShowModal }) {
                 <option value={4}>&#9733;&#9733;&#9733;&#9733;</option>
                 <option value={5}>&#9733;&#9733;&#9733;&#9733;&#9733;</option>
             </select>
-            <textarea
-                placeholder="Review"
-                type="text"
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                required
-                maxLength={1000}
-            ></textarea>
+            <div className="input-group">
+                <textarea
+                    placeholder="Review"
+                    type="text"
+                    value={review}
+                    onChange={(e) => {
+                        setReview(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={1000}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                ></textarea>
+                <div className="character-count">{characterCount}/1000</div>
+            </div>
             <div id="button-container">
                 <button className="edit-form-buttons" type="submit">Submit Review</button>
                 <button className="edit-form-buttons" type="button" onClick={() => setShowModal(false)}>Cancel</button>

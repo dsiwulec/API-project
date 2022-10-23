@@ -57,23 +57,23 @@ const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
         .withMessage('Address is required')
-        .isLength({ max: 100 })
-        .withMessage('Addresses must be 100 characters or less'),
+        .isLength({ max: 50 })
+        .withMessage('Addresses must be 50 characters or less'),
     check('city')
         .exists({ checkFalsy: true })
         .withMessage('City is required')
-        .isLength({ max: 100 })
-        .withMessage('City names must be 100 characters or less'),
+        .isLength({ max: 50 })
+        .withMessage('City names must be 50 characters or less'),
     check('state')
         .exists({ checkFalsy: true })
         .withMessage('State is required')
-        .isLength({ max: 100 })
-        .withMessage('State names must be 100 characters or less'),
+        .isLength({ max: 50 })
+        .withMessage('State names must be 50 characters or less'),
     check('country')
         .exists({ checkFalsy: true })
         .withMessage('Country is required')
-        .isLength({ max: 100 })
-        .withMessage('Country names must be 100 characters or less'),
+        .isLength({ max: 50 })
+        .withMessage('Country names must be 50 characters or less'),
     check('name')
         .exists({ checkFalsy: true })
         .withMessage('Name is required')

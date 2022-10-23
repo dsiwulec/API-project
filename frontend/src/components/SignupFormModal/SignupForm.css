@@ -2,11 +2,12 @@
     border: 1px solid rgb(175, 175, 175);
     border-radius: 7px;
     height: 50px;
-    margin: 5px 0px;
+    margin: 0px;
 }
 
 #signup-button {
-    margin: 25px 0px;
+    margin-top: 9px;
+    margin-bottom: 25px;
     color: white;
     text-justify: center;
     text-align: center;

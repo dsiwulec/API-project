@@ -1,12 +1,13 @@
-.create-spot {
+input.create-spot {
     border: 1px solid rgb(175, 175, 175);
     border-radius: 7px;
     height: 50px;
-    margin: 5px 0px;
+    margin: 0px;
 }
 
 #signup-button {
-    margin: 25px 0px;
+    margin-top: 9px;
+    margin-bottom: 25px;
     color: white;
     text-justify: center;
     text-align: center;
@@ -25,5 +26,26 @@ textarea {
     height: 125px;
     border: 1px solid rgb(175, 175, 175);
     border-radius: 7px;
-    margin: 5px 0px;
+    margin: 0px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.character-count {
+    align-self: flex-end;
+    justify-self: flex-end;
+    height: 16px;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+.input-group:focus-within>.character-count {
+    visibility: visible;
+}
+
+#price {
+    margin-bottom: 16px;
 }
