@@ -25,19 +25,21 @@ const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
-        .withMessage('Please provide a valid email.'),
+        .withMessage('Please provide a valid email.')
+        .isLength({ max: 50 })
+        .withMessage('Email must be 50 characters or less'),
     check('username')
         .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username with at least 4 characters.'),
+        .isLength({ min: 4, max: 50 })
+        .withMessage('Usernames must be betwwen 4 and 50 characters'),
     check('username')
         .not()
         .isEmail()
         .withMessage('Username cannot be an email.'),
     check('password')
         .exists({ checkFalsy: true })
-        .isLength({ min: 6 })
-        .withMessage('Password must be 6 characters or more.'),
+        .isLength({ min: 6, max: 50 })
+        .withMessage('Password must be between 6 and 50 characters'),
     handleValidationErrors
 ];
 
@@ -54,24 +56,34 @@ const validateLogin = [
 const validateSpot = [
     check('address')
         .exists({ checkFalsy: true })
-        .withMessage('Street address is required'),
+        .withMessage('Address is required')
+        .isLength({ max: 100 })
+        .withMessage('Addresses must be 100 characters or less'),
     check('city')
         .exists({ checkFalsy: true })
-        .withMessage('City is required'),
+        .withMessage('City is required')
+        .isLength({ max: 100 })
+        .withMessage('City names must be 100 characters or less'),
     check('state')
         .exists({ checkFalsy: true })
-        .withMessage('State is required'),
+        .withMessage('State is required')
+        .isLength({ max: 100 })
+        .withMessage('State names must be 100 characters or less'),
     check('country')
         .exists({ checkFalsy: true })
-        .withMessage('Country is required'),
+        .withMessage('Country is required')
+        .isLength({ max: 100 })
+        .withMessage('Country names must be 100 characters or less'),
     check('name')
         .exists({ checkFalsy: true })
         .withMessage('Name is required')
-        .isLength({ max: 49 })
-        .withMessage('Name must be less than 50 characters'),
+        .isLength({ max: 100 })
+        .withMessage('Names must be 100 characters or less'),
     check('description')
         .exists({ checkFalsy: true })
-        .withMessage('Description is required'),
+        .withMessage('Description is required')
+        .isLength({ max: 1000 })
+        .withMessage('Descriptions must be 1000 characters or less'),
     check('price')
         .exists({ checkFalsy: true })
         .withMessage('Price per day is required')
@@ -95,7 +107,9 @@ const validateSpot = [
 const validateReview = [
     check('review')
         .exists({ checkFalsy: true })
-        .withMessage('Review text is required'),
+        .withMessage('Review text is required')
+        .isLength({ max: 1000 })
+        .withMessage('Reviews must be 1000 characters or less'),
     check('stars')
         .exists({ checkFalsy: true })
         .withMessage('Stars is required')

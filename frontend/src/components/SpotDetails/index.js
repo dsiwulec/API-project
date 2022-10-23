@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneSpot } from "../../store/spots";
-import { getSpotReviews } from "../../store/reviews"
+import { getSpotReviews, getUserReviews } from "../../store/reviews"
 import EditSpotModal from "../EditSpotModal";
 import DeleteSpotModal from "../DeleteSpotModal";
 import ReviewCard from "../ReviewCard";
@@ -18,6 +18,7 @@ const SpotDetailsPage = () => {
     const spotDetails = useSelector(state => state.spots.spotDetails)
     const spotReviews = useSelector(state => Object.values(state.reviews.spot))
     const userReviewsForSpot = useSelector(state => state.reviews.user)
+    const existingReview = Object.values(spotReviews).find(review => review.userId === sessionUser.id)
 
     useEffect(() => {
         dispatch(getOneSpot(spotId))
@@ -26,6 +27,10 @@ const SpotDetailsPage = () => {
     useEffect(() => {
         dispatch(getSpotReviews(spotId))
     }, [dispatch, spotId, userReviewsForSpot])
+
+    useEffect(() => {
+        dispatch(getUserReviews())
+    }, [dispatch])
 
     useEffect(() => {
         if (spotDetails.SpotImages) {
@@ -74,7 +79,7 @@ const SpotDetailsPage = () => {
                     <div id="review-header-left">
                         {spotDetails && <h3>&#9733;{spotDetails.avgStarRating} · {spotDetails.numReviews} reviews</h3>}
                     </div>
-                    {sessionUser && spotDetails && spotDetails.Owner && sessionUser.id !== spotDetails.Owner.id && <CreateReviewModal />}
+                    {sessionUser && spotDetails && spotDetails.Owner && sessionUser.id !== spotDetails.Owner.id && !existingReview && < CreateReviewModal />}
                 </div>
                 <div className="reviews">
                     {spotReviews.map(review => (<ReviewCard key={review.id} review={review} />))}

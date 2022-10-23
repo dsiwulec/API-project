@@ -15,7 +15,7 @@ function CreateReviewForm({ setShowModal }) {
 
         const reviewData = {
             spotId,
-            stars,
+            stars: Number(stars),
             review
         }
 
@@ -41,11 +41,11 @@ function CreateReviewForm({ setShowModal }) {
 
             <select onChange={(e) => setStars(e.target.value)}>
                 <option value="">--Please Select a Rating--</option>
-                <option value="+1">&#9733;</option>
-                <option value="+2">&#9733;&#9733;</option>
-                <option value="+3">&#9733;&#9733;&#9733;</option>
-                <option value="+4">&#9733;&#9733;&#9733;&#9733;</option>
-                <option value="+5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                <option value={1}>&#9733;</option>
+                <option value={2}>&#9733;&#9733;</option>
+                <option value={3}>&#9733;&#9733;&#9733;</option>
+                <option value={4}>&#9733;&#9733;&#9733;&#9733;</option>
+                <option value={5}>&#9733;&#9733;&#9733;&#9733;&#9733;</option>
             </select>
             <textarea
                 placeholder="Review"
@@ -53,6 +53,7 @@ function CreateReviewForm({ setShowModal }) {
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 required
+                maxLength={1000}
             ></textarea>
             <div id="button-container">
                 <button className="edit-form-buttons" type="submit">Submit Review</button>

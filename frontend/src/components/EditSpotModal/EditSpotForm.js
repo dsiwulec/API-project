@@ -51,6 +51,7 @@ function EditSpotForm({ setShowModal }) {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -59,6 +60,7 @@ function EditSpotForm({ setShowModal }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -67,6 +69,7 @@ function EditSpotForm({ setShowModal }) {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -75,6 +78,7 @@ function EditSpotForm({ setShowModal }) {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -83,14 +87,16 @@ function EditSpotForm({ setShowModal }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
                 placeholder="Price"
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required
+                min={1}
             />
             <textarea
                 placeholder="Description"
@@ -98,6 +104,7 @@ function EditSpotForm({ setShowModal }) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
+                maxLength={1000}
             ></textarea>
             <div id="button-container">
                 <button className="edit-form-buttons" type="submit">Submit Changes</button>

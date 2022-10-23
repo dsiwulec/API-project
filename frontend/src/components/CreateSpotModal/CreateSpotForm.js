@@ -61,6 +61,7 @@ function CreateSpotForm({ setShowModal }) {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -69,6 +70,7 @@ function CreateSpotForm({ setShowModal }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -77,6 +79,7 @@ function CreateSpotForm({ setShowModal }) {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -85,6 +88,7 @@ function CreateSpotForm({ setShowModal }) {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
@@ -93,19 +97,21 @@ function CreateSpotForm({ setShowModal }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                maxLength={100}
             />
             <input
                 className="create-spot"
                 placeholder="Price"
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required
+                min={1}
             />
             <input
                 className="create-spot"
                 placeholder="Preview Image URL"
-                type="text"
+                type="url"
                 value={previewUrl}
                 onChange={(e) => setPreviewUrl(e.target.value)}
                 required
@@ -116,6 +122,7 @@ function CreateSpotForm({ setShowModal }) {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
+                maxLength={1000}
             ></textarea>
             <button id="signup-button" type="submit">Start Hosting</button>
         </form>
