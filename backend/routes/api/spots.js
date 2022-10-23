@@ -186,7 +186,7 @@ router.get('/:spotId', async (req, res, next) => {
 
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { spotId } = req.params
-    const { address, city, state, country, lat, lng, name, descirption, price } = req.body
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
     const spot = await Spot.findOne({
         where: {
             id: spotId
@@ -212,7 +212,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
         return next(err);
     }
 
-    await spot.update({ address, city, state, country, lat, lng, name, descirption, price })
+    await spot.update({ address, city, state, country, lat, lng, name, description, price })
 
     res.json(spot)
 })

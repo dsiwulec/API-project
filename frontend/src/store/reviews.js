@@ -108,7 +108,12 @@ const reviewsReducer = (state = { spot: {}, user: {} }, action) => {
             return { ...state }
 
         case LOAD_USER_REVIEWS:
-            return { ...state, user: { ...state.user, ...action.reviews } }
+            state.user = {}
+
+            action.reviews.Reviews.forEach(review => {
+                state.user[review.id] = review
+            })
+            return { ...state }
 
         case EDIT_REVIEW:
             return {
