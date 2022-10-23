@@ -144,16 +144,25 @@ function CreateSpotForm({ setShowModal }) {
                 onChange={(e) => setPrice(e.target.value)}
                 required
                 min={1}
+                max={10000}
             />
-            <input
-                id="preview-image"
-                className="create-spot"
-                placeholder="Preview Image URL"
-                type="url"
-                value={previewUrl}
-                onChange={(e) => setPreviewUrl(e.target.value)}
-                required
-            />
+            <div className="input-group">
+                <input
+                    id="preview-image"
+                    className="create-spot"
+                    placeholder="Preview Image URL"
+                    type="url"
+                    value={previewUrl}
+                    onChange={(e) => {
+                        setPreviewUrl(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={255}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/255</div>
+            </div>
             <div className="input-group">
                 <textarea
                     placeholder="Description"

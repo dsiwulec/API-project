@@ -134,6 +134,7 @@ function EditSpotForm({ setShowModal }) {
                 onChange={(e) => setPrice(e.target.value)}
                 required
                 min={1}
+                max={10000}
             />
             <div className="input-group">
                 <textarea
