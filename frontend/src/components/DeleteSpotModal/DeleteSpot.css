@@ -32,7 +32,7 @@ textarea {
     height: 125px;
     border: 1px solid rgb(175, 175, 175);
     border-radius: 7px;
-    margin: 5px 0px;
+    margin: 0px;
 }
 
 h4 {
@@ -42,4 +42,8 @@ h4 {
 
 #delete {
     margin-left: 15px;
+}
+
+#preview-image {
+    margin-bottom: 16px;
 }

@@ -13,6 +13,7 @@ function SignupFormPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [characterCount, setCharacterCount] = useState(0)
     const [errors, setErrors] = useState([]);
 
     if (sessionUser) return <Redirect to="/" />;
@@ -37,73 +38,111 @@ function SignupFormPage() {
             </ul>}
             <h2 className="header-text">Welcome to Airbnb</h2>
             First Name
-            <input
-                className="signup"
-                placeholder="First Name"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                maxLength={50}
-            />
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="First Name"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => {
+                        setFirstName(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={25}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/25</div>
+            </div>
 
             Last Name
-            <input
-                className="signup"
-                placeholder="Last Name"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                maxLength={50}
-            />
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="Last Name"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => {
+                        setLastName(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={25}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/25</div>
+            </div>
 
             Email
-            <input
-                className="signup"
-                placeholder="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                maxLength={50}
-            />
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={50}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
 
             Username
-            <input
-                className="signup"
-                placeholder="Username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                minLength={4}
-                maxLength={50}
-            />
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="Username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => {
+                        setUsername(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    maxLength={25}
+                    onFocus={(e) => setCharacterCount(e.target.value.length)}
+                />
+                <div className="character-count">{characterCount}/25</div>
+            </div>
 
             Password
-            <input
-                className="signup"
-                placeholder="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                maxLength={50}
-            />
-
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => {
+                        setPassword(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    minLength={6}
+                    maxLength={50}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
             Confirm Password
-            <input
-                className="signup"
-                placeholder="Confirm Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                minLength={6}
-                maxLength={50}
-            />
+            <div className="input-group">
+                <input
+                    className="signup"
+                    placeholder="Password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => {
+                        setConfirmPassword(e.target.value)
+                        setCharacterCount(e.target.value.length)
+                    }}
+                    required
+                    minLength={6}
+                    maxLength={50}
+                />
+                <div className="character-count">{characterCount}/50</div>
+            </div>
 
             <button id="signup-button" type="submit">Sign Up</button>
         </form>
