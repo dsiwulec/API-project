@@ -97,8 +97,8 @@ const validateSpot = [
         .withMessage('Price per day is required')
         .isInt()
         .withMessage('Price must be an integer')
-        .isInt({ min: 1 })
-        .withMessage('Price must be at least 1'),
+        .isInt({ min: 1, max: 10000 })
+        .withMessage('Price must be between 1 and 10,000'),
     // check('lat')
     //     .exists({ checkFalsy: true })
     //     .withMessage('Latitude is required')
