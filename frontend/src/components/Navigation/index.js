@@ -13,6 +13,9 @@ function Navigation({ isLoaded }) {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
     const [showMenu, setShowMenu] = useState(false)
+    const [userSignup, setUserSignup] = useState(false)
+    const [userLogin, setUserLogin] = useState(false)
+    const [create, setCreate] = useState(false)
 
     const demoLogin = () => dispatch(login({ credential: 'demo', password: 'password' }))
 
@@ -24,15 +27,19 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                <LoginFormModal />
-                <SignupFormModal />
+                <button onClick={() => {
+                    setUserLogin(true)
+                }}>Login</button>
+                <button onClick={() => {
+                    setUserSignup(true)
+                }}>Sign Up</button>
                 <button onClick={demoLogin}>Login as Demo User</button>
             </>
         );
     }
 
     useEffect(() => {
-        if (!showMenu) return;
+        if (showMenu === false) return;
 
         const closeMenu = (event) => {
             if (event.target.closest('#modal-content') === null) setShowMenu(false);
@@ -51,14 +58,18 @@ function Navigation({ isLoaded }) {
                     <h2>irNomad</h2>
                 </div>
             </NavLink>
-            {sessionUser && <CreateSpotModal />}
+            {sessionUser && <button id="host" onClick={() => setCreate(true)}>Become a Host</button>}
+            {create && <CreateSpotModal create={create} setCreate={setCreate} />}
             <button id='user-nav' onClick={() => setShowMenu(!showMenu)}>
                 <i className="fa-solid fa-bars"></i>
                 <i className="fa-solid fa-circle-user"></i>
             </button>
+            {userLogin && <LoginFormModal userLogin={userLogin} setUserLogin={setUserLogin} />}
+            {userSignup && <SignupFormModal userSignup={userSignup} setUserSignup={setUserSignup} />}
             {showMenu && <div id='expanded-menu'>
                 {isLoaded && sessionLinks}
             </div>}
+
         </div>
     );
 }
