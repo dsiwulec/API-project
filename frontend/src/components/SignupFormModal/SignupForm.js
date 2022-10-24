@@ -36,7 +36,7 @@ function SignupFormPage() {
             {errors.length > 0 && <ul>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>}
-            <h2 className="header-text">Welcome to Airbnb</h2>
+            <h2 className="header-text">Welcome to AirNomad</h2>
             First Name
             <div className="input-group">
                 <input

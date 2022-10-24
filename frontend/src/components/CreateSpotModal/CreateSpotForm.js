@@ -54,7 +54,7 @@ function CreateSpotForm({ setShowModal }) {
             {errors.length > 0 && <ul>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>}
-            <h2 className="header-text">Become an Airbnb Host</h2>
+            <h2 className="header-text">Become an AirNomad Host</h2>
             <div className="input-group">
                 <input
                     className="create-spot"
