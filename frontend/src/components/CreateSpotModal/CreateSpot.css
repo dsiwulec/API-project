@@ -42,7 +42,29 @@ textarea {
     visibility: hidden;
 }
 
+.under-url {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-group:focus-within>.under-url>* {
+    visibility: visible;
+}
+
+.demo-url {
+    align-self: flex-start;
+    justify-self: flex-end;
+    height: 16px;
+    font-size: 12px;
+    visibility: hidden;
+}
+
 .input-group:focus-within>.character-count {
+    visibility: visible;
+}
+
+.input-group:focus-within>.demo-url {
     visibility: visible;
 }
 

@@ -161,7 +161,10 @@ function CreateSpotForm({ setShowModal }) {
                     maxLength={255}
                     onFocus={(e) => setCharacterCount(e.target.value.length)}
                 />
-                <div className="character-count">{characterCount}/255</div>
+                <div className="under-url">
+                    <button className="demo-url" type="button" onClick={() => setPreviewUrl("https://a0.muscache.com/im/pictures/d7e9ec73-f907-493d-83ed-1d89ad92fb5e.jpg?im_w=1200")}>Demo URL</button>
+                    <div className="character-count">{characterCount}/255</div>
+                </div>
             </div>
             <div className="input-group">
                 <textarea
