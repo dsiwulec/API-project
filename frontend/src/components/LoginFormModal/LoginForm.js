@@ -9,16 +9,17 @@ function LoginForm({ setShowModal }) {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
-        dispatch(sessionActions.login({ credential, password })).catch(
+        const user = await dispatch(sessionActions.login({ credential, password })).catch(
             async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
-                else setShowModal(false)
             }
         );
+
+        if (user) setShowModal(false)
     };
 
     return (
