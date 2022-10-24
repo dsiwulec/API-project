@@ -13,6 +13,9 @@ const SpotDetailsPage = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams()
     const [previewImage, setPreviewImage] = useState(false)
+    const [edit, setEdit] = useState(false)
+    const [deleteSpot, setDeleteSpot] = useState(false)
+    const [createReview, setCreateReview] = useState(false)
 
     const sessionUser = useSelector(state => state.session.user);
     const spotDetails = useSelector(state => state.spots.spotDetails)
@@ -39,10 +42,12 @@ const SpotDetailsPage = () => {
                 <div id="left-overview">
                     <p>&#9733;{spotDetails.avgStarRating} · <a id="reviews-link" href="#review_section">{spotDetails.numReviews} reviews</a> · {spotDetails.city}, {spotDetails.state}, {spotDetails.country}</p>
                 </div>
+                {edit && <EditSpotModal edit={edit} setEdit={setEdit} />}
+                {deleteSpot && <DeleteSpotModal deleteSpot={deleteSpot} setDeleteSpot={setDeleteSpot} />}
                 {sessionUser?.id === spotDetails.Owner?.id && (
                     <div>
-                        <EditSpotModal />
-                        <DeleteSpotModal />
+                        <button onClick={() => setEdit(true)}>Edit</button>
+                        <button id='delete' onClick={() => setDeleteSpot(true)}>Delete</button>
                     </div>
                 )}
             </div>
@@ -73,8 +78,9 @@ const SpotDetailsPage = () => {
                     <div id="review-header-left">
                         {spotDetails && <h3>&#9733;{spotDetails.avgStarRating} · {spotDetails.numReviews} reviews</h3>}
                     </div>
-                    {sessionUser && sessionUser.id !== spotDetails?.Owner?.id && !existingReview && < CreateReviewModal />}
+                    {sessionUser && sessionUser.id !== spotDetails?.Owner?.id && !existingReview && <button onClick={() => setCreateReview(true)}>Leave a Review</button>}
                 </div>
+                {createReview && <CreateReviewModal createReview={createReview} setCreateReview={setCreateReview} />}
                 <div className="reviews">
                     {spotReviews.map(review => (<ReviewCard key={review.id} review={review} />))}
                 </div>

@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from '../../context/Modal';
 import CreateReviewForm from './CreateReviewForm';
 
 
-function CreateReviewModal() {
-    const [showModal, setShowModal] = useState(false);
-
-    const onClick = event => {
-        event.stopPropagation()
-        setShowModal(true)
-    }
-
+function CreateReviewModal({ createReview, setCreateReview }) {
     return (
         <>
-            <button onClick={onClick}>Leave a Review</button>
-            {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <CreateReviewForm setShowModal={setShowModal} />
+            {createReview && (
+                <Modal onClose={() => setCreateReview(false)}>
+                    <CreateReviewForm setShowModal={setCreateReview} />
                 </Modal>
             )}
         </>

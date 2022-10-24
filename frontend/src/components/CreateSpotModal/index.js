@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from '../../context/Modal';
 import CreateSpotForm from './CreateSpotForm';
 import './CreateSpot.css'
 
 
-function CreateSpotModal() {
-    const [showModal, setShowModal] = useState(false);
-
-    const onClick = event => {
-        event.stopPropagation()
-        setShowModal(true)
-    }
+function CreateSpotModal({ create, setCreate }) {
 
     return (
         <>
-            <button id="host" onClick={onClick}>Become a Host</button>
-            {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <CreateSpotForm setShowModal={setShowModal} />
+
+            {create && (
+                <Modal onClose={() => setCreate(false)}>
+                    <CreateSpotForm setShowModal={setCreate} />
                 </Modal>
             )}
         </>
