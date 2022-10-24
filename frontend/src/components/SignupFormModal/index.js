@@ -8,7 +8,7 @@ function SignupFormModal({ userSignup, setUserSignup }) {
         <>
             {userSignup && (
                 <Modal onClose={() => setUserSignup(false)}>
-                    <SignupForm />
+                    <SignupForm setUserSignup={setUserSignup} />
                 </Modal>
             )}
         </>
