@@ -28,7 +28,7 @@ function LoginForm({ setShowModal }) {
                     <li key={idx}>{error}</li>
                 ))}
             </ul>}
-            <h2>Welcome to Airbnb</h2>
+            <h2>Welcome to AirNomad</h2>
             <input
                 className="username"
                 placeholder="Username or Email"
