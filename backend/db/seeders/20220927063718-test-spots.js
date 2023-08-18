@@ -65,7 +65,7 @@ module.exports = {
         3 minutes from the exciting town of Bloomsburg, and only 10-15 minutes from the #1 family amusement park in the country, Knoebels. This Chalet has
         amazing views to help you make amazing memories.`,
         price: 279,
-        previewImage: "https://a0.muscache.com/im/pictures/20330f34-e6ae-4bed-b848-a86fc5020436.jpg?im_w=960"
+        previewImage: "https://a0.muscache.com/im/pictures/79856427/29ea43a1_original.jpg?im_w=1200"
       },
       {
         ownerId: 3,
